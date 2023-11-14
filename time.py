@@ -19,6 +19,6 @@ def fib(n):
 
 
 start_timer = timeit.default_timer()
-fib(50)
+fib(35)
 end_timer = timeit.default_timer()
 print(end_timer - start_timer)
