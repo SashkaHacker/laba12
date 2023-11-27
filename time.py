@@ -1,9 +1,13 @@
-import timeit
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+
+from timeit import timeit
 from functools import lru_cache
 import sys
 
 
-# @lru_cache
+@lru_cache
 def factorial_recursion(n):
     if n == 0:
         return 1
@@ -13,7 +17,7 @@ def factorial_recursion(n):
         return n * factorial_recursion(n - 1)
 
 
-#  @lru_cache
+@lru_cache
 def fib_recursion(n):
     if n == 0 or n == 1:
         return n
@@ -38,15 +42,12 @@ def fib_iterable(n):
 
 
 if __name__ == "__main__":
-    # sys.setrecursionlimit(5000)
-    start_timer = timeit.default_timer()
-    fib_recursion(20)
-    end_timer = timeit.default_timer()
-    print(f'Время выполнения рекурсивной функции: '
-          f'{end_timer - start_timer}')
-    start_timer = timeit.default_timer()
-    fib_iterable(20)
-    end_timer = timeit.default_timer()
-    print(f'Время выполнения итеративной функции: '
-          f'{end_timer - start_timer}')
+    sys.setrecursionlimit(5000)
+    n = 30
+    setup1 = """from __main__ import fib_recursion"""
+    setup2 = """from __main__ import fib_iterable"""
+    timer = timeit(stmt=f'fib_recursion({n})', number=10, setup=setup1)
+    print(f'Время выполнения рекурсивной функции: {timer}')
+    timer = timeit(stmt=f'fib_iterable({n})', number=10, setup=setup2)
+    print(f'Время выполнения итеративной функции: {timer}')
 
