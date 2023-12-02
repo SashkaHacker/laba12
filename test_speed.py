@@ -15,10 +15,7 @@ lst.append(100)
 lst.sort()
 el = 100'''
     use = '''
-try:
-    binary_search(el, len(lst) - 1, lst, 0)
-except:
-    print(lst)'''
+binary_search(el, len(lst) - 1, lst, 0)'''
 
     return timeit.timeit(stmt=use, setup=setup, number=10000)
 
@@ -31,7 +28,6 @@ def create_excel():
 
     # fill values in cell
     lst = [i for i in range(10, 100000, 500)]
-    print(len(lst))
     # lst = [10, 100, 500, 1000, 2000, 5000, 7000, 10000, 50000, 100000]
     matrix = [['Кол-во элементов:', 'Время:']]
     for i in range(200):
