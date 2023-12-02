@@ -3,6 +3,7 @@
 
 import timeit
 from openpyxl import Workbook
+from openpyxl.chart import LineChart, Reference
 
 
 def timer(n):
@@ -23,23 +24,33 @@ except:
 
 
 def create_excel():
+    # Create table
     wb = Workbook()
     ws = wb.active
     ws.title = "Chart of speed"
 
-    # for x in range(1, 101):
-    #     for y in range(1, 101):
-    #         ws.cell(row=x, column=y)
-
-    ws.cell(row=1, column=1, value="Количество элементов в списке:")
+    # fill values in cell
     lst = [10, 20, 30, 40, 100, 200, 400, 800, 1000, 1500]
-    matrix = [[] * 10]
-    for ind, val in enumerate(lst):
-        ws.cell(row=ind + 2, column=1, value=val)
+    matrix = [['Кол-во элементов:', 'Время:']]
+    for i in range(10):
+        result = round(timer(lst[i]), 6)
+        matrix.append([lst[i], result])
+    for row in matrix:
+        ws.append(row)
 
-    for i in range(2, 12):
-        result = round(timer(lst[i - 2]), 6)
-        ws.cell(row=i, column=2, value=result)
+    # create chart
+    chart = LineChart()
+    chart.title = "Line Chart"
+    chart.style = 13
+    chart.x_axis.title = 'Number of values'
+    chart.y_axis.title = 'Time'
+
+    data = Reference(ws, min_col=2, min_row=2, max_col=2, max_row=11)
+    chart.add_data(data)
+    category = Reference(ws, min_row=2, max_row=11, min_col=1, max_col=1)
+    chart.set_categories(category)
+    ws.add_chart(chart, "A15")
+
     wb.save('Chart.xlsx')
 
 
